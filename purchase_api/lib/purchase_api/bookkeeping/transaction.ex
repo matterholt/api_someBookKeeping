@@ -5,7 +5,9 @@ defmodule PurchaseApi.Bookkeeping.Transaction do
   schema "transactions" do
     field :amount, :decimal
     field :item, :string
+    field :customer, :string
     field :typeOf, :string
+    field :entryDate, :date
 
     timestamps(type: :utc_datetime)
   end
@@ -13,7 +15,8 @@ defmodule PurchaseApi.Bookkeeping.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:amount, :item, :typeOf])
-    |> validate_required([:amount, :item, :typeOf])
+    |> cast(attrs, [:amount, :item, :cutomer, :typeOf, :entryDate])
+    |> validate_required([:amount, :item, :cutomer, :typeOf, :entryDate])
+    |> validate_number(:amount, greater_than_or_equal_to: 0)
   end
 end
